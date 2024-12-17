@@ -37,6 +37,7 @@ async function findRegistrationForMigration() {
 
   const response = await runQuery(query);
 
+  
   if (response.length > 0) {
     console.log("Found registration for migration:", response[0]);
     const responseApi = await hitApiMigration(response[0].reg_num);
@@ -60,9 +61,8 @@ async function hitApiMigration(reg_num) {
   const apiUrl = `${process.env.BASE_URL_V1}/migration/patient?reg_num=${reg_num}`;
   try {
     const response = await axios.get(apiUrl);
-    if (response.data && response.data.registrations.reg_num) {
-        return true;
-    }
+    console.log('success ' + reg_num)
+    return true
   } catch (error) {
     console.error("API request failed:", error.message);
   }
