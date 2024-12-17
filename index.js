@@ -36,7 +36,9 @@ WHERE EXISTS (
   SELECT 1 
   FROM t_patient_examination tpe 
   WHERE tpe.uid_registration = tpr.uid
-)
+) 
+AND tpr.is_migrated = false
+ORDER BY tpr.registration_date ASC
 LIMIT 1`;
 
   const response = await runQuery(query);
@@ -54,6 +56,7 @@ LIMIT 1`;
 async function updateRegistrationMigrated(id) {
   const query = `UPDATE t_patient_registration SET is_migrated = true 
     WHERE id = ${id}`;
+
 
   const response = await runQuery(query);
 
