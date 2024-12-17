@@ -30,10 +30,14 @@ async function runQuery(query) {
 }
 
 async function findRegistrationForMigration() {
-  const query = `SELECT id, reg_num FROM t_patient_registration 
-    WHERE is_migrated = false 
-    ORDER BY registration_date ASC
-    LIMIT 1`;
+  const query = `SELECT tpr.uid, tpr.id, tpr.reg_num
+FROM t_patient_registration tpr
+WHERE EXISTS (
+  SELECT 1 
+  FROM t_patient_examination tpe 
+  WHERE tpe.uid_registration = tpr.uid
+)
+LIMIT 1`;
 
   const response = await runQuery(query);
 
