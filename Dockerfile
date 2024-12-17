@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Expose port aplikasi (sesuaikan dengan port aplikasi Anda)
-EXPOSE 3754
+EXPOSE 3000
 
 # Jalankan aplikasi menggunakan Node.js
 CMD ["node", "index.js"]
