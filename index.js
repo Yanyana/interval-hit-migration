@@ -32,11 +32,16 @@ async function runQuery(query) {
 async function findRegistrationForMigration() {
   const query = `SELECT tpr.uid, tpr.id, tpr.reg_num
 FROM t_patient_registration tpr
-WHERE EXISTS (
-  SELECT 1 
-  FROM t_patient_examination tpe 
+WHERE NOT EXISTS (
+  SELECT 1
+  FROM t_patient_examination tpe
+  WHERE tpe.uid_registration = tpr.uid AND tpe.is_acc = false
+)
+AND EXISTS (
+  SELECT 1
+  FROM t_patient_examination tpe
   WHERE tpe.uid_registration = tpr.uid
-) 
+) -- pastikan ada pemeriksaan
 AND tpr.is_migrated = false
 ORDER BY tpr.registration_date ASC
 LIMIT 1`;
